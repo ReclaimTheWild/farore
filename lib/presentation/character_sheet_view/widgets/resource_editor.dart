@@ -19,8 +19,13 @@ class ResourceEditor extends StatefulWidget {
 
 class _ResourceEditorState extends State<ResourceEditor> {
   late final cubit = BlocProvider.of<ResourceCubit>(context);
+
   void updatePickerValue(int value) {
     cubit.setCurrent(value);
+  }
+
+  void updatePickerTempValue(int value) {
+    cubit.setTemporary(value);
   }
 
   @override
@@ -73,11 +78,34 @@ class _ResourceEditorState extends State<ResourceEditor> {
                         ),
                       ),
                       const SizedBox(height: 16),
+                      ScrollConfiguration(
+                        behavior: ScrollConfiguration.of(context).copyWith(
+                          dragDevices: {
+                            PointerDeviceKind.touch,
+                            PointerDeviceKind.mouse,
+                          },
+                        ),
+                        child: NumberPicker(
+                          itemHeight: 30,
+                          minValue: state.minMin,
+                          maxValue: state.maxValue,
+                          value: state.tempValue,
+                          onChanged: updatePickerTempValue,
+                          axis: Axis.horizontal,
+                          textStyle: Theme.of(context).textTheme.headline6,
+                          selectedTextStyle: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              ?.copyWith(color: Colors.yellow),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
                       SizedBox(
                         width: MediaQuery.of(context).size.width / 2,
                         child: ZeldaGauge(
                           max: state.maxValue,
                           value: state.value,
+                          tempValue: state.tempValue,
                           mainColor: state.color,
                         ),
                       ),
@@ -88,6 +116,7 @@ class _ResourceEditorState extends State<ResourceEditor> {
                           max: state.maxValue,
                           value: state.value,
                           mainColor: state.color,
+                          tempValue: state.tempValue,
                           iconFamily: state.iconFamily,
                         ),
                       ),

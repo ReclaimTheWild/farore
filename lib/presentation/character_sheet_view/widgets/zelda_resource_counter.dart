@@ -7,9 +7,10 @@ import '../../../utils/icons_finder.dart';
 class ZeldaResourceCounter extends StatefulWidget {
   final iconsFinder = const IconsFinder();
 
-  int max;
-  int temp;
-  int value;
+  final int max;
+  final int temp;
+  final int value;
+  final int tempValue;
 
   final Color emptyColor;
   final Color mainColor;
@@ -17,9 +18,10 @@ class ZeldaResourceCounter extends StatefulWidget {
 
   final IconFamily iconFamily;
 
-  ZeldaResourceCounter({
+  const ZeldaResourceCounter({
     required this.max,
     required this.value,
+    required this.tempValue,
     this.temp = 0,
     this.emptyColor = Colors.black,
     required this.mainColor,
@@ -64,6 +66,24 @@ class _ZeldaResourceCounterState extends State<ZeldaResourceCounter> {
         ),
       );
     }
+    final tempElements = <ZeldaResourceElement>[];
+    int ftValue = widget.tempValue;
+    for (int i = 0; i < widget.max; i += 4) {
+      final int quarter = ftValue > 4 ? 4 : ftValue;
+      ftValue -= quarter;
+      tempElements.add(
+        ZeldaResourceElement(
+          color: widget.tempColor,
+          hideBackground: true,
+          iconFamily: widget.iconFamily,
+          iconValue: quarterToIconValue(quarter),
+          iconsFinder: widget.iconsFinder,
+        ),
+      );
+    }
+    final larger = elements.length > tempElements.length
+        ? elements.length
+        : tempElements.length;
     for (int i = elements.length; i < 12; i++) {
       elements.add(
         ZeldaResourceElement(
@@ -75,25 +95,63 @@ class _ZeldaResourceCounterState extends State<ZeldaResourceCounter> {
         ),
       );
     }
+    for (int i = tempElements.length; i < 12; i++) {
+      tempElements.add(
+        ZeldaResourceElement(
+          visibility: false,
+          hideBackground: true,
+          color: widget.emptyColor,
+          iconFamily: widget.iconFamily,
+          iconValue: IconValue.container,
+          iconsFinder: widget.iconsFinder,
+        ),
+      );
+    }
     if (elements.length <= 6) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: elements,
+      return Stack(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: elements,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: tempElements,
+          ),
+        ],
       );
     } else {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: elements.sublist(0, 6),
+          Stack(
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: elements.sublist(0, 6),
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: tempElements.sublist(0, 6),
+              ),
+            ],
           ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: elements.sublist(6, elements.length),
+          Stack(
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: elements.sublist(6, elements.length),
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: tempElements.sublist(6, elements.length),
+              ),
+            ],
           ),
         ],
       );
@@ -107,10 +165,12 @@ class ZeldaResourceElement extends StatelessWidget {
   final IconsFinder iconsFinder;
   final Color color;
   final bool visibility;
+  final bool hideBackground;
 
   const ZeldaResourceElement({
     Key? key,
     this.visibility = true,
+    this.hideBackground = false,
     required this.iconFamily,
     required this.iconValue,
     required this.iconsFinder,
@@ -127,25 +187,26 @@ class ZeldaResourceElement extends StatelessWidget {
       child: Stack(
         alignment: AlignmentDirectional.center,
         children: [
-          DecoratedIcon(
-            icon: Icon(
-              iconsFinder.getIconData(iconFamily, IconValue.full),
-              color: Colors.grey.shade800,
-              size: 48,
-            ),
-            decoration: const IconDecoration(
-              border: IconBorder(
-                color: Colors.black87,
-                width: 4,
+          if (hideBackground == false)
+            DecoratedIcon(
+              icon: Icon(
+                iconsFinder.getIconData(iconFamily, IconValue.full),
+                color: Colors.grey.shade800,
+                size: 48,
               ),
-              shadows: [
-                Shadow(
-                  blurRadius: 2,
-                  offset: Offset(2, 0),
-                )
-              ],
+              decoration: const IconDecoration(
+                border: IconBorder(
+                  color: Colors.black87,
+                  width: 4,
+                ),
+                shadows: [
+                  Shadow(
+                    blurRadius: 2,
+                    offset: Offset(2, 0),
+                  )
+                ],
+              ),
             ),
-          ),
           _ZeldaResourceElementOverlay(
             iconsFinder: iconsFinder,
             iconFamily: iconFamily,
@@ -174,37 +235,25 @@ class _ZeldaResourceElementOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomAnimation<double>(
-      control: CustomAnimationControl.stop,
-      tween: Tween<double>(begin: 48, end: 44),
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-      startPosition: 0,
-      animationStatusListener: (status) {
-        print("status updated: $status");
-      },
-      builder: (context, child, value) {
-        return DecoratedIcon(
-          icon: Icon(
-            iconsFinder.getIconData(iconFamily, iconValue),
-            color: iconValue.index == 0 ? Colors.transparent : null,
-            size: value,
-          ),
-          decoration: iconValue.index != 0
-              ? IconDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      HSLColor.fromColor(color).withLightness(0.8).toColor(),
-                      color,
-                      HSLColor.fromColor(color).withLightness(0.2).toColor(),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                )
-              : null,
-        );
-      },
+    return DecoratedIcon(
+      icon: Icon(
+        iconsFinder.getIconData(iconFamily, iconValue),
+        color: iconValue.index == 0 ? Colors.transparent : null,
+        size: 48,
+      ),
+      decoration: iconValue.index != 0
+          ? IconDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  HSLColor.fromColor(color).withLightness(0.8).toColor(),
+                  color,
+                  HSLColor.fromColor(color).withLightness(0.2).toColor(),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            )
+          : null,
     );
   }
 }

@@ -341,22 +341,33 @@ class _MyHomePageState extends State<MyHomePage> {
               child: ZeldaGauge(
                 max: 40,
                 value: healthValue,
+                tempValue: 0,
                 mainColor: Colors.red,
               ),
             ),
             const SizedBox(height: 4),
             SizedBox(
               width: MediaQuery.of(context).size.width / 2,
-              child: ZeldaGauge(max: 40, value: 12, mainColor: Colors.green),
+              child: const ZeldaGauge(
+                max: 40,
+                value: 12,
+                tempValue: 8,
+                mainColor: Colors.green,
+              ),
             ),
             const SizedBox(height: 4),
             SizedBox(
               width: MediaQuery.of(context).size.width / 2,
-              child: ZeldaGauge(max: 16, value: 16, mainColor: Colors.blue),
+              child: const ZeldaGauge(
+                max: 16,
+                value: 16,
+                tempValue: 6,
+                mainColor: Colors.blue,
+              ),
             ),
             ElevatedButton(
-              child: const Text("Character Sheet"),
               onPressed: goCharaSheet,
+              child: const Text("Character Sheet"),
             ),
           ],
         ),
