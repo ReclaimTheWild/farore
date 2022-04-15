@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 
-import '../../domain/entities/resource.dart';
-import '../../utils/icons_finder.dart';
-import '../blocs/resource_cubit.dart';
-import 'widgets/resource_editor.dart';
+import "../../domain/entities/resource.dart";
+import "../../utils/icons_finder.dart";
+import "../blocs/resource_cubit.dart";
+import '../blocs/traits_cubit.dart';
+import "widgets/resource_editor.dart";
+import 'widgets/traits_display.dart';
 
 class CharacterSheetView extends StatelessWidget {
   static const routeName = '/character-sheet';
@@ -31,6 +33,8 @@ class CharacterSheetView extends StatelessWidget {
                     title: "Health",
                     color: Colors.red,
                     iconFamily: IconFamily.zeldaHeart,
+                    maxValue: 200,
+                    maxMax: 200,
                   ),
                 ),
                 child: const ResourceEditor(),
@@ -57,6 +61,14 @@ class CharacterSheetView extends StatelessWidget {
                   ),
                 ),
                 child: const ResourceEditor(),
+              ),
+              const SizedBox(height: 16),
+              BlocProvider(
+                create: (_) => TraitsCubit(),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: const TraitsDisplay(),
+                ),
               ),
             ],
           ),

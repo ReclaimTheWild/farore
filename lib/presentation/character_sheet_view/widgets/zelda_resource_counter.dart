@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:icon_decoration/icon_decoration.dart';
-import 'package:simple_animations/simple_animations.dart';
+import "package:flutter/material.dart";
+import "package:icon_decoration/icon_decoration.dart";
 
-import '../../../utils/icons_finder.dart';
+import "../../../utils/icons_finder.dart";
 
 class ZeldaResourceCounter extends StatefulWidget {
   final iconsFinder = const IconsFinder();
@@ -81,81 +80,18 @@ class _ZeldaResourceCounterState extends State<ZeldaResourceCounter> {
         ),
       );
     }
-    final larger = elements.length > tempElements.length
-        ? elements.length
-        : tempElements.length;
-    for (int i = elements.length; i < 12; i++) {
-      elements.add(
-        ZeldaResourceElement(
-          visibility: false,
-          color: widget.emptyColor,
-          iconFamily: widget.iconFamily,
-          iconValue: IconValue.container,
-          iconsFinder: widget.iconsFinder,
+    return Stack(
+      children: [
+        Wrap(
+          alignment: WrapAlignment.start,
+          children: elements,
         ),
-      );
-    }
-    for (int i = tempElements.length; i < 12; i++) {
-      tempElements.add(
-        ZeldaResourceElement(
-          visibility: false,
-          hideBackground: true,
-          color: widget.emptyColor,
-          iconFamily: widget.iconFamily,
-          iconValue: IconValue.container,
-          iconsFinder: widget.iconsFinder,
+        Wrap(
+          alignment: WrapAlignment.start,
+          children: tempElements,
         ),
-      );
-    }
-    if (elements.length <= 6) {
-      return Stack(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: elements,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: tempElements,
-          ),
-        ],
-      );
-    } else {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Stack(
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: elements.sublist(0, 6),
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: tempElements.sublist(0, 6),
-              ),
-            ],
-          ),
-          Stack(
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: elements.sublist(6, elements.length),
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: tempElements.sublist(6, elements.length),
-              ),
-            ],
-          ),
-        ],
-      );
-    }
+      ],
+    );
   }
 }
 

@@ -1,6 +1,18 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import '../../utils/icons_finder.dart';
+import "../../utils/icons_finder.dart";
+
+class BasicResources {
+  final Resource health;
+  final Resource stamina;
+  final Resource magic;
+
+  const BasicResources({
+    required this.health,
+    required this.stamina,
+    required this.magic,
+  });
+}
 
 class Resource {
   final String title;

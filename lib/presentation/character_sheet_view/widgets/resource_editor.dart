@@ -1,12 +1,12 @@
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:numberpicker/numberpicker.dart';
+import "package:flutter/gestures.dart";
+import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:numberpicker/numberpicker.dart";
 
-import '../../../domain/entities/resource.dart';
-import '../../blocs/resource_cubit.dart';
-import 'zelda_gauge.dart';
-import 'zelda_resource_counter.dart';
+import "../../../domain/entities/resource.dart";
+import "../../blocs/resource_cubit.dart";
+import "zelda_gauge.dart";
+import "zelda_resource_counter.dart";
 
 class ResourceEditor extends StatefulWidget {
   const ResourceEditor({
