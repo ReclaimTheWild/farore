@@ -65,9 +65,9 @@ class CharacterSheetView extends StatelessWidget {
               const SizedBox(height: 16),
               BlocProvider(
                 create: (_) => TraitsCubit(),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: const TraitsDisplay(),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: TraitsDisplay(),
                 ),
               ),
             ],

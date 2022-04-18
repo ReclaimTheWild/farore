@@ -25,8 +25,10 @@ class _TraitsDisplayState extends State<TraitsDisplay> {
           return Column(
             children: <Widget>[
               Center(
-                  child: Text(
-                      "[TEMP] Total Traits Token Cost: ${state.tokenPriceTotal} (${state.power.tokenPriceTotal}, ${state.wisdom.tokenPriceTotal}, ${state.courage.tokenPriceTotal})")),
+                child: Text(
+                  "[TEMP] Total Traits Token Cost: ${state.tokenPriceTotal} (${state.power.tokenPriceTotal}, ${state.wisdom.tokenPriceTotal}, ${state.courage.tokenPriceTotal})",
+                ),
+              ),
               const SizedBox(height: 8),
               AspectDisplay(aspect: state.power),
               const SizedBox(height: 8),

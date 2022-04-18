@@ -82,7 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       setState(() {
         healthValue += 1;
-        print(healthValue);
       });
     });
   }
