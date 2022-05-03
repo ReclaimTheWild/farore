@@ -62,7 +62,7 @@ class _AspectDisplayState extends State<AspectDisplay> {
   Widget build(BuildContext context) {
     final _screen = MediaQuery.of(context).size;
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: aspect.color,
         border: Border.all(
