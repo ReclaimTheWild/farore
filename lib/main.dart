@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void goCharaSheet() {
-    GoRouter.of(context).go('/character-sheet');
+    GoRouter.of(context).push('/character-sheet');
   }
 
   @override

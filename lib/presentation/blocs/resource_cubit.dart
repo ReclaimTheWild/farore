@@ -14,6 +14,8 @@ class ResourceCubit extends Cubit<Resource> {
   int get min => state.minValue;
   int get temp => state.tempValue;
 
+  void set(Resource resource) => emit(resource);
+
   void setMin(int min) {
     emit(state.copyWith(minValue: min));
   }
@@ -44,6 +46,18 @@ class ResourceCubit extends Cubit<Resource> {
 
   void setTemporary(int tempValue) {
     emit(state.copyWith(tempValue: tempValue));
+  }
+
+  void setBound(int boundValue) {
+    final newState = state;
+    newState.setBoundValue(boundValue);
+    emit(newState.copyWith());
+  }
+
+  void setBurnt(int burntValue) {
+    final newState = state;
+    newState.setBurntValue(burntValue);
+    emit(newState.copyWith());
   }
 
   void setHasTemp({bool hasTemp = false}) {

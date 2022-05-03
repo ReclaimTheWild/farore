@@ -26,9 +26,12 @@ class Resource {
   int maxMax;
 
   bool hasTemp;
+  bool iconMode;
 
   late int _value;
   late int _tempValue;
+  late int _boundValue;
+  late int _burntValue;
 
   Resource({
     required this.title,
@@ -39,13 +42,18 @@ class Resource {
     int maxValue = 40,
     this.maxMax = 40,
     this.hasTemp = false,
+    this.iconMode = false,
     int value = 0,
     int tempValue = 0,
+    int boundValue = 0,
+    int burntValue = 0,
   }) {
     this.minValue = minValue;
     this.maxValue = maxValue;
     this.value = value;
     this.tempValue = tempValue;
+    this.boundValue = boundValue;
+    this.burntValue = burntValue;
   }
 
   int get minValue => _minValue;
@@ -86,6 +94,40 @@ class Resource {
     }
   }
 
+  int get boundValue => _boundValue;
+  set boundValue(int value) {
+    _boundValue = value;
+    if (_boundValue < _minValue) {
+      _boundValue = _minValue;
+    }
+    if (_boundValue > _maxValue) {
+      _boundValue = _maxValue;
+    }
+  }
+
+  int get burntValue => _burntValue;
+  set burntValue(int value) {
+    _burntValue = value;
+    if (_burntValue < _minValue) {
+      _burntValue = _minValue;
+    }
+    if (_burntValue > _maxValue) {
+      _burntValue = _maxValue;
+    }
+  }
+
+  void setBoundValue(int nValue) {
+    final oldValue = boundValue;
+    boundValue = nValue;
+    value = value - (boundValue - oldValue);
+  }
+
+  void setBurntValue(int nValue) {
+    final oldValue = burntValue;
+    burntValue = nValue;
+    value = value - ((burntValue - oldValue) < 0 ? 0 : (burntValue - oldValue));
+  }
+
   Resource copyWith({
     String? title,
     Color? color,
@@ -95,8 +137,11 @@ class Resource {
     int? maxValue,
     int? maxMax,
     bool? hasTemp,
+    bool? iconMode,
     int? value,
     int? tempValue,
+    int? boundValue,
+    int? burntValue,
   }) {
     return Resource(
       title: title ?? this.title,
@@ -107,8 +152,11 @@ class Resource {
       maxValue: maxValue ?? this.maxValue,
       maxMax: maxMax ?? this.maxMax,
       hasTemp: hasTemp ?? this.hasTemp,
+      iconMode: iconMode ?? this.iconMode,
       value: value ?? this.value,
       tempValue: tempValue ?? this.tempValue,
+      boundValue: boundValue ?? this.boundValue,
+      burntValue: burntValue ?? this.burntValue,
     );
   }
 }

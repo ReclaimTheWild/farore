@@ -171,7 +171,8 @@ class _AnimatedZeldaGauge extends AnimatedWidget {
       bottomLeft: Radius.circular(7),
     );
     final border2 = BorderRadius.circular(7);
-    final Widget progressWidget = DecoratedBox(
+    final Widget progressWidget = Container(
+      height: 42,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [

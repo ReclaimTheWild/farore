@@ -81,6 +81,7 @@ class _ZeldaResourceCounterState extends State<ZeldaResourceCounter> {
       );
     }
     return Stack(
+      alignment: Alignment.center,
       children: [
         Wrap(
           alignment: WrapAlignment.start,
@@ -102,11 +103,13 @@ class ZeldaResourceElement extends StatelessWidget {
   final Color color;
   final bool visibility;
   final bool hideBackground;
+  final double size;
 
   const ZeldaResourceElement({
     Key? key,
     this.visibility = true,
     this.hideBackground = false,
+    this.size = 42.0,
     required this.iconFamily,
     required this.iconValue,
     required this.iconsFinder,
@@ -128,7 +131,7 @@ class ZeldaResourceElement extends StatelessWidget {
               icon: Icon(
                 iconsFinder.getIconData(iconFamily, IconValue.full),
                 color: Colors.grey.shade800,
-                size: 48,
+                size: size,
               ),
               decoration: const IconDecoration(
                 border: IconBorder(
@@ -148,6 +151,7 @@ class ZeldaResourceElement extends StatelessWidget {
             iconFamily: iconFamily,
             iconValue: iconValue,
             color: color,
+            size: size,
           ),
         ],
       ),
@@ -160,6 +164,7 @@ class _ZeldaResourceElementOverlay extends StatelessWidget {
   final IconFamily iconFamily;
   final IconValue iconValue;
   final Color color;
+  final double size;
 
   const _ZeldaResourceElementOverlay({
     Key? key,
@@ -167,6 +172,7 @@ class _ZeldaResourceElementOverlay extends StatelessWidget {
     required this.iconFamily,
     required this.iconValue,
     required this.color,
+    required this.size,
   }) : super(key: key);
 
   @override
@@ -175,7 +181,7 @@ class _ZeldaResourceElementOverlay extends StatelessWidget {
       icon: Icon(
         iconsFinder.getIconData(iconFamily, iconValue),
         color: iconValue.index == 0 ? Colors.transparent : null,
-        size: 48,
+        size: size,
       ),
       decoration: iconValue.index != 0
           ? IconDecoration(
