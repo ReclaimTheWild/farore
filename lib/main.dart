@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icon_decoration/icon_decoration.dart';
 
+import 'presentation/ability_creator_view/ability_creator_view.dart';
 import 'presentation/character_sheet_view/character_sheet_view.dart';
 import 'presentation/character_sheet_view/widgets/zelda_gauge.dart';
 import 'utils/zelda_heart_icons_icons.dart';
@@ -26,7 +27,11 @@ class GoddessSuite extends StatelessWidget {
       GoRoute(
         path: '/character-sheet',
         builder: (context, state) => const CharacterSheetView(),
-      )
+      ),
+      GoRoute(
+        path: '/ability-creator',
+        builder: (context, state) => const AbilityCreatorView(),
+      ),
     ],
   );
 
@@ -88,6 +93,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void goCharaSheet() {
     GoRouter.of(context).push('/character-sheet');
+  }
+
+  void goAbilityCreator() {
+    GoRouter.of(context).push('/ability-creator');
   }
 
   @override
@@ -341,6 +350,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 max: 40,
                 value: healthValue,
                 tempValue: 0,
+                boundValue: 0,
+                burntValue: 0,
                 mainColor: Colors.red,
               ),
             ),
@@ -351,6 +362,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 max: 40,
                 value: 12,
                 tempValue: 8,
+                boundValue: 0,
+                burntValue: 0,
                 mainColor: Colors.green,
               ),
             ),
@@ -361,12 +374,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 max: 16,
                 value: 16,
                 tempValue: 6,
+                boundValue: 0,
+                burntValue: 0,
                 mainColor: Colors.blue,
               ),
             ),
             ElevatedButton(
               onPressed: goCharaSheet,
               child: const Text("Character Sheet"),
+            ),
+            ElevatedButton(
+              onPressed: goAbilityCreator,
+              child: const Text("Ability Creator"),
             ),
           ],
         ),

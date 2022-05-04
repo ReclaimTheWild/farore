@@ -10,10 +10,14 @@ class ZeldaResourceCounter extends StatefulWidget {
   final int temp;
   final int value;
   final int tempValue;
+  final int boundValue;
+  final int burntValue;
 
   final Color emptyColor;
   final Color mainColor;
   final Color tempColor;
+  final Color boundColor;
+  final Color? burntColor;
 
   final IconFamily iconFamily;
 
@@ -21,10 +25,14 @@ class ZeldaResourceCounter extends StatefulWidget {
     required this.max,
     required this.value,
     required this.tempValue,
+    this.boundValue = 0,
+    this.burntValue = 0,
     this.temp = 0,
     this.emptyColor = Colors.black,
     required this.mainColor,
     this.tempColor = Colors.yellow,
+    this.boundColor = Colors.cyan,
+    this.burntColor,
     required this.iconFamily,
     Key? key,
   }) : super(key: key);
@@ -59,6 +67,51 @@ class _ZeldaResourceCounterState extends State<ZeldaResourceCounter> {
       elements.add(
         ZeldaResourceElement(
           color: widget.mainColor,
+          hideBackground: true,
+          iconFamily: widget.iconFamily,
+          iconValue: quarterToIconValue(quarter),
+          iconsFinder: widget.iconsFinder,
+        ),
+      );
+    }
+    final boundElements = <ZeldaResourceElement>[];
+    int fBoundValue = widget.value + widget.boundValue;
+    for (int i = 0; i < widget.max; i += 4) {
+      final int quarter = fBoundValue > 4 ? 4 : fBoundValue;
+      fBoundValue -= quarter;
+      boundElements.add(
+        ZeldaResourceElement(
+          color: widget.boundColor,
+          hideBackground: true,
+          iconFamily: widget.iconFamily,
+          iconValue: quarterToIconValue(quarter),
+          iconsFinder: widget.iconsFinder,
+        ),
+      );
+    }
+    final burntElementsBack = <ZeldaResourceElement>[];
+    int fBurntBackValue = widget.max;
+    for (int i = 0; i < widget.max; i += 4) {
+      final int quarter = fBurntBackValue > 4 ? 4 : fBurntBackValue;
+      fBurntBackValue -= quarter;
+      burntElementsBack.add(
+        ZeldaResourceElement(
+          color: widget.burntColor ?? Colors.purple.shade800,
+          iconFamily: widget.iconFamily,
+          iconValue: quarterToIconValue(quarter),
+          iconsFinder: widget.iconsFinder,
+        ),
+      );
+    }
+    final notBurntElements = <ZeldaResourceElement>[];
+    int fNotBurntValue = widget.max - widget.burntValue;
+    for (int i = 0; i < widget.max; i += 4) {
+      final int quarter = fNotBurntValue > 4 ? 4 : fNotBurntValue;
+      fNotBurntValue -= quarter;
+      notBurntElements.add(
+        ZeldaResourceElement(
+          color: Colors.grey.shade800,
+          hideBackground: true,
           iconFamily: widget.iconFamily,
           iconValue: quarterToIconValue(quarter),
           iconsFinder: widget.iconsFinder,
@@ -83,6 +136,18 @@ class _ZeldaResourceCounterState extends State<ZeldaResourceCounter> {
     return Stack(
       alignment: Alignment.center,
       children: [
+        Wrap(
+          alignment: WrapAlignment.start,
+          children: burntElementsBack,
+        ),
+        Wrap(
+          alignment: WrapAlignment.start,
+          children: notBurntElements,
+        ),
+        Wrap(
+          alignment: WrapAlignment.start,
+          children: boundElements,
+        ),
         Wrap(
           alignment: WrapAlignment.start,
           children: elements,

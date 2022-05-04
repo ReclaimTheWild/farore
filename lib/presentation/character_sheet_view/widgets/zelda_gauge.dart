@@ -5,19 +5,27 @@ class ZeldaGauge extends StatefulWidget {
   final int temp;
   final int value;
   final int tempValue;
+  final int boundValue;
+  final int burntValue;
 
   final Color emptyColor;
   final Color mainColor;
   final Color tempColor;
+  final Color boundColor;
+  final Color? burntColor;
 
   const ZeldaGauge({
     required this.max,
     required this.value,
     required this.tempValue,
+    required this.boundValue,
+    required this.burntValue,
     this.temp = 0,
     this.emptyColor = Colors.black,
     required this.mainColor,
     this.tempColor = Colors.yellow,
+    this.boundColor = Colors.cyan,
+    this.burntColor,
     Key? key,
   }) : super(key: key);
 
@@ -29,6 +37,7 @@ class _ZeldaGaugeState extends State<ZeldaGauge>
     with SingleTickerProviderStateMixin {
   late Animation<double> _animation;
   late Animation<double> _tempAnimation;
+
   late AnimationController _controller;
 
   double _currentBegin = 0;
@@ -94,6 +103,11 @@ class _ZeldaGaugeState extends State<ZeldaGauge>
   Widget build(BuildContext context) => _AnimatedZeldaGauges(
         animation: _animation,
         tempAnimation: _tempAnimation,
+        value: widget.value,
+        tempValue: widget.tempValue,
+        boundValue: widget.boundValue,
+        burntValue: widget.burntValue,
+        maxValue: widget.max,
         widget: widget,
       );
 }
@@ -104,10 +118,21 @@ class _AnimatedZeldaGauges extends StatelessWidget {
   final Animation<double> animation;
   final Animation<double> tempAnimation;
 
+  final int value;
+  final int tempValue;
+  final int boundValue;
+  final int burntValue;
+  final int maxValue;
+
   const _AnimatedZeldaGauges({
     Key? key,
     required this.animation,
     required this.tempAnimation,
+    required this.value,
+    required this.tempValue,
+    required this.boundValue,
+    required this.burntValue,
+    required this.maxValue,
     required this.widget,
   }) : super(key: key);
 
@@ -135,9 +160,20 @@ class _AnimatedZeldaGauges extends StatelessWidget {
         child: Stack(
           alignment: AlignmentDirectional.center,
           children: [
-            _AnimatedZeldaGauge(animation: animation, color: widget.mainColor),
+            _AnimatedZeldaGauge(
+              animation: animation,
+              value: value,
+              boundValue: boundValue,
+              burntValue: burntValue,
+              maxValue: maxValue,
+              color: widget.mainColor,
+              boundColor: widget.boundColor,
+              burntColor: widget.burntColor ?? Colors.purple.shade800,
+            ),
             _AnimatedZeldaGauge(
               animation: tempAnimation,
+              value: tempValue,
+              maxValue: maxValue,
               color: widget.tempColor,
             ),
           ],
@@ -150,10 +186,24 @@ class _AnimatedZeldaGauges extends StatelessWidget {
 class _AnimatedZeldaGauge extends AnimatedWidget {
   final Color color;
 
+  final int value;
+  final int boundValue;
+  final int burntValue;
+  final int maxValue;
+
+  final Color? boundColor;
+  final Color? burntColor;
+
   const _AnimatedZeldaGauge({
     Key? key,
     required Animation<double> animation,
+    required this.value,
+    this.boundValue = 0,
+    this.burntValue = 0,
+    required this.maxValue,
     required this.color,
+    this.boundColor,
+    this.burntColor,
   }) : super(key: key, listenable: animation);
 
   double transformValue(num x, num begin, num end, num before) {
@@ -171,6 +221,10 @@ class _AnimatedZeldaGauge extends AnimatedWidget {
       bottomLeft: Radius.circular(7),
     );
     final border2 = BorderRadius.circular(7);
+    const border3 = BorderRadius.only(
+      topRight: Radius.circular(7),
+      bottomRight: Radius.circular(7),
+    );
     final Widget progressWidget = Container(
       height: 42,
       decoration: BoxDecoration(
@@ -182,7 +236,9 @@ class _AnimatedZeldaGauge extends AnimatedWidget {
           begin: Alignment.topCenter,
           end: const Alignment(0, 4.0),
         ),
-        borderRadius: animation.value == 1 ? border2 : border,
+        borderRadius: boundValue == 0 && burntValue == 0 && value == maxValue
+            ? border2
+            : border,
       ),
     );
     progressWidgets.add(progressWidget);
@@ -197,10 +253,57 @@ class _AnimatedZeldaGauge extends AnimatedWidget {
             children: progressWidgets,
           ),
         ),
-        Expanded(
-          flex: 100 - (animation.value * 100).toInt(),
-          child: Container(),
-        ),
+        if (boundValue > 0)
+          Expanded(
+            flex: (boundValue * 100) ~/ maxValue,
+            child: Container(
+              height: 42,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    boundColor ?? Colors.cyan,
+                    HSLColor.fromColor(boundColor ?? Colors.cyan)
+                        .withLightness(0.2)
+                        .toColor(),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: const Alignment(0, 4.0),
+                ),
+                borderRadius: burntValue == 0 && value + boundValue == maxValue
+                    ? border3
+                    : BorderRadius.zero,
+              ),
+            ),
+          ),
+        if (value + burntValue + boundValue < maxValue)
+          Expanded(
+            flex: 100 -
+                ((animation.value * 100) +
+                        ((boundValue * 100) ~/ maxValue) +
+                        ((burntValue * 100) ~/ maxValue))
+                    .toInt(),
+            child: Container(),
+          ),
+        if (burntValue > 0)
+          Expanded(
+            flex: (burntValue * 100) ~/ maxValue,
+            child: Container(
+              height: 42,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    burntColor ?? Colors.purple.shade800,
+                    HSLColor.fromColor(burntColor ?? Colors.purple.shade800)
+                        .withLightness(0.2)
+                        .toColor(),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: const Alignment(0, 4.0),
+                ),
+                borderRadius: border3,
+              ),
+            ),
+          ),
       ],
     );
   }

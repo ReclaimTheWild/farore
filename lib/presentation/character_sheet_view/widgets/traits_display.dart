@@ -56,7 +56,19 @@ class AspectDisplay extends StatefulWidget {
 }
 
 class _AspectDisplayState extends State<AspectDisplay> {
+  late final cubit = BlocProvider.of<TraitsCubit>(context);
+
   Aspect get aspect => widget.aspect;
+
+  void editInjuryValue(Aspect aspect) {
+    if (aspect.title == cubit.courage.title) {
+      cubit.setCourage(aspect as CourageAspect);
+    } else if (aspect.title == cubit.power.title) {
+      cubit.setPower(aspect as PowerAspect);
+    } else if (aspect.title == cubit.wisdom.title) {
+      cubit.setWisdom(aspect as WisdomAspect);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,16 +85,51 @@ class _AspectDisplayState extends State<AspectDisplay> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Text(
-            aspect.title,
-            style: Theme.of(context).textTheme.headline6,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Stack(
+                alignment: AlignmentDirectional.centerEnd,
+                children: [
+                  Center(
+                    child: Text(
+                      aspect.title,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                      ),
+                      onPressed: () => showDialog(
+                        context: context,
+                        builder: (context) {
+                          return InjuryEditorDialog(
+                            aspect: aspect,
+                            onValueChanged: editInjuryValue,
+                          );
+                        },
+                      ),
+                      child: const Icon(Icons.water_drop),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-          Text(
-            aspect.injuries == 0
-                ? "No injuries"
-                : "Injuries: ${aspect.injuries}",
-            style:
-                Theme.of(context).textTheme.headline6?.copyWith(fontSize: 14),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              aspect.injuries == 0
+                  ? "No injuries"
+                  : "Injuries: ${aspect.injuries}",
+              style:
+                  Theme.of(context).textTheme.headline6?.copyWith(fontSize: 14),
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -126,7 +173,7 @@ class _AspectDisplayState extends State<AspectDisplay> {
             ],
           ),
           for (Trait trait in aspect.traits) ...[
-            TraitDisplay(trait: trait),
+            TraitDisplay(trait: trait, injuries: aspect.injuries),
             const Divider()
           ],
         ],
@@ -135,11 +182,144 @@ class _AspectDisplayState extends State<AspectDisplay> {
   }
 }
 
+class InjuryEditorDialog extends StatefulWidget {
+  final Aspect aspect;
+  final ValueChanged<Aspect> onValueChanged;
+
+  const InjuryEditorDialog({
+    Key? key,
+    required this.aspect,
+    required this.onValueChanged,
+  }) : super(key: key);
+
+  @override
+  State<InjuryEditorDialog> createState() => _InjuryEditorDialogState();
+}
+
+class _InjuryEditorDialogState extends State<InjuryEditorDialog> {
+  Aspect get aspect => widget.aspect;
+  ValueChanged<Aspect> get onValueChanged => widget.onValueChanged;
+
+  late int newInjuryValue;
+
+  @override
+  void initState() {
+    super.initState();
+    newInjuryValue = aspect.injuries;
+  }
+
+  void changeInjuryValue(int change) {
+    int _newInjuryValue = newInjuryValue + change;
+    if (_newInjuryValue < 0) {
+      _newInjuryValue = 0;
+    }
+    if (_newInjuryValue > 10) {
+      _newInjuryValue = 10;
+    }
+    setState(() {
+      newInjuryValue = _newInjuryValue;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: SizedBox(
+        height: 400,
+        width: 400,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Edit ${aspect.title} Injuries",
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () => changeInjuryValue(-1),
+                        child: SizedBox(
+                          height: 50,
+                          child: Center(
+                            child: Text(
+                              "-",
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline6,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 70,
+                        child: Center(
+                          child: Text(
+                            newInjuryValue.toString(),
+                            style: Theme.of(context).textTheme.headline5,
+                          ),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () => changeInjuryValue(1),
+                        child: SizedBox(
+                          height: 50,
+                          child: Center(
+                            child: Text(
+                              "+",
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline6,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (aspect.title == "Courage") {
+                    onValueChanged(
+                      (aspect as CourageAspect)
+                          .copyWith(injuries: newInjuryValue),
+                    );
+                  }
+                  if (aspect.title == "Power") {
+                    onValueChanged(
+                      (aspect as PowerAspect)
+                          .copyWith(injuries: newInjuryValue),
+                    );
+                  }
+                  if (aspect.title == "Wisdom") {
+                    onValueChanged(
+                      (aspect as WisdomAspect)
+                          .copyWith(injuries: newInjuryValue),
+                    );
+                  }
+                  Navigator.pop(context);
+                },
+                child: const Text("Confirm"),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class TraitDisplay extends StatefulWidget {
   final Trait trait;
+  final int injuries;
   const TraitDisplay({
     Key? key,
     required this.trait,
+    required this.injuries,
   }) : super(key: key);
 
   @override
@@ -150,6 +330,7 @@ class _TraitDisplayState extends State<TraitDisplay> {
   late final cubit = BlocProvider.of<TraitsCubit>(context);
 
   Trait get trait => widget.trait;
+  int get injuries => widget.injuries;
 
   void editValue(Trait newTrait) => cubit.setTrait(newTrait);
 
@@ -227,7 +408,10 @@ class _TraitDisplayState extends State<TraitDisplay> {
               },
             ),
             child: Text(
-              trait.totalValue.toString(),
+              (trait.totalValue - injuries >= 0
+                      ? trait.totalValue - injuries
+                      : 0)
+                  .toString(),
               style: Theme.of(context).textTheme.headline6,
             ),
           ),

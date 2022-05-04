@@ -146,6 +146,8 @@ class _ResourceEditorState extends State<ResourceEditor> {
                         max: state.maxValue,
                         value: state.value,
                         tempValue: state.tempValue,
+                        boundValue: state.boundValue,
+                        burntValue: state.burntValue,
                         mainColor: state.color,
                       ),
                     ),
@@ -159,6 +161,8 @@ class _ResourceEditorState extends State<ResourceEditor> {
                         value: state.value,
                         mainColor: state.color,
                         tempValue: state.tempValue,
+                        boundValue: state.boundValue,
+                        burntValue: state.burntValue,
                         iconFamily: state.iconFamily,
                       ),
                     ),
@@ -189,8 +193,6 @@ class ResourceInfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final allowedWidth = size.width * 0.22;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[

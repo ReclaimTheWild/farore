@@ -50,10 +50,10 @@ class Resource {
   }) {
     this.minValue = minValue;
     this.maxValue = maxValue;
-    this.value = value;
-    this.tempValue = tempValue;
     this.boundValue = boundValue;
     this.burntValue = burntValue;
+    this.value = value;
+    this.tempValue = tempValue;
   }
 
   int get minValue => _minValue;
@@ -78,8 +78,8 @@ class Resource {
     if (_value < _minValue) {
       _value = _minValue;
     }
-    if (_value > _maxValue) {
-      _value = _maxValue;
+    if (_value > _maxValue - (_boundValue + _burntValue)) {
+      _value = _maxValue - (_boundValue + _burntValue);
     }
   }
 
