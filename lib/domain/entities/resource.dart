@@ -2,6 +2,20 @@ import "package:flutter/material.dart";
 
 import "../../utils/icons_finder.dart";
 
+enum ResourceType {
+  none,
+  stamina,
+  magic,
+  health,
+}
+
+enum ConsumptionType {
+  none,
+  spend,
+  bind,
+  burn,
+}
+
 class BasicResources {
   final Resource health;
   final Resource stamina;

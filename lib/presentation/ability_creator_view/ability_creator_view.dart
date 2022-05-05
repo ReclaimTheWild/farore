@@ -30,12 +30,13 @@ class AbilityCreatorBody extends StatefulWidget {
 class _AbilityCreatorBodyState extends State<AbilityCreatorBody> {
   final _formKey = GlobalKey<FormState>();
 
-  late AbilityType _type;
+  late AbilityType? _type;
 
   @override
   void initState() {
     super.initState();
-    _type = AbilityType.feat;
+//    _type = AbilityType.none;
+    _type = null;
   }
 
   @override

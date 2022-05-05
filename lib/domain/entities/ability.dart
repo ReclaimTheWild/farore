@@ -1,4 +1,7 @@
+import 'resource.dart';
+
 enum AbilityType {
+  none,
   feat,
   technique,
   spell,
@@ -7,6 +10,8 @@ enum AbilityType {
 extension AbilityTypeName on AbilityType {
   String get capitalizedName {
     switch (this) {
+      case AbilityType.none:
+        return "";
       case AbilityType.feat:
         return 'Feat';
       case AbilityType.technique:
@@ -19,44 +24,68 @@ extension AbilityTypeName on AbilityType {
   }
 }
 
+enum AbilityActionType {
+  none,
+  standard,
+  minor,
+  free,
+  reaction,
+  move,
+}
+
 class Ability {
-  final String id;
   final String title;
   final AbilityType type;
   final int tokenPrice;
-  final List<AbilityRequirement>? requirements;
+  final List<AbilityRequirement>? useRequirements;
   final List<AbilityRequirement>? learnRequirements;
   final String effect;
   final String? special;
+  final int? resourcePrice;
+  final ResourceType resourceType;
+  final ConsumptionType consumptionType;
+  final AbilityActionType actionType;
+  final String? damageFormula;
 
   const Ability({
-    required this.id,
     required this.title,
-    required this.type,
+    this.type = AbilityType.none,
     required this.tokenPrice,
-    this.requirements,
+    this.useRequirements,
     this.learnRequirements,
     required this.effect,
     this.special,
+    this.damageFormula,
+    this.resourcePrice,
+    this.resourceType = ResourceType.none,
+    this.consumptionType = ConsumptionType.none,
+    this.actionType = AbilityActionType.none,
   });
 
   Map<String, dynamic> toJson() => {
-        'id': id,
         'title': title,
         'type': type.index,
-        'tokenPrice': tokenPrice,
-        'requirements': requirements?.map((e) => e.toJson()).toList(),
-        'learnRequirements': learnRequirements?.map((e) => e.toJson()).toList(),
+        'token_price': tokenPrice,
+        'use_requirements': useRequirements?.map((e) => e.toJson()).toList(),
+        'learn_requirements':
+            learnRequirements?.map((e) => e.toJson()).toList(),
         'effect': effect,
         'special': special,
+        'damage_formula': damageFormula,
+        'resource_price': resourcePrice,
+        'resource_type': resourceType.index,
+        'consumption_type': consumptionType.index,
+        'action_type': actionType.index,
       };
 
+  static List<Ability> fromJsonList(List<dynamic> json) =>
+      List<Ability>.from(json.map((e) => Ability.fromJson));
+
   factory Ability.fromJson(Map<String, dynamic> json) => Ability(
-        id: json['id'] as String,
         title: json['title'] as String,
         type: AbilityType.values[json['type'] as int],
         tokenPrice: json['tokenPrice'] as int,
-        requirements: List<AbilityRequirement>.from(
+        useRequirements: List<AbilityRequirement>.from(
           (json['requirements'] as List<Map<String, dynamic>>)
               .map((e) => AbilityRequirement.fromJson)
               .toList(),
@@ -68,6 +97,12 @@ class Ability {
         ),
         effect: json['effect'] as String,
         special: json['special'] as String?,
+        damageFormula: json['damage_formula'] as String?,
+        resourcePrice: json['resource_price'] as int?,
+        resourceType: ResourceType.values[json['resource_type'] as int],
+        consumptionType:
+            ConsumptionType.values[json['consumption_type'] as int],
+        actionType: AbilityActionType.values[json['action_type'] as int],
       );
 }
 
