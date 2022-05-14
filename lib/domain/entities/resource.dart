@@ -9,11 +9,45 @@ enum ResourceType {
   health,
 }
 
+extension ResourceTypeName on ResourceType {
+  String get capitalizedName {
+    switch (this) {
+      case ResourceType.none:
+        return "";
+      case ResourceType.health:
+        return 'Health';
+      case ResourceType.stamina:
+        return 'Stamina';
+      case ResourceType.magic:
+        return 'Magic';
+      default:
+        return 'Unknown';
+    }
+  }
+}
+
 enum ConsumptionType {
   none,
   spend,
   bind,
   burn,
+}
+
+extension ConsumptionTypeName on ConsumptionType {
+  String get capitalizedName {
+    switch (this) {
+      case ConsumptionType.none:
+        return "";
+      case ConsumptionType.spend:
+        return 'Spend';
+      case ConsumptionType.bind:
+        return 'Bind';
+      case ConsumptionType.burn:
+        return 'Burn';
+      default:
+        return 'Unknown';
+    }
+  }
 }
 
 class BasicResources {

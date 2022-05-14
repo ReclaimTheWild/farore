@@ -33,6 +33,27 @@ enum AbilityActionType {
   move,
 }
 
+extension AbilityActionTypeName on AbilityActionType {
+  String get capitalizedName {
+    switch (this) {
+      case AbilityActionType.none:
+        return "";
+      case AbilityActionType.standard:
+        return 'Standard Action';
+      case AbilityActionType.minor:
+        return 'Minor Action';
+      case AbilityActionType.free:
+        return 'Free Action';
+      case AbilityActionType.reaction:
+        return 'Reaction';
+      case AbilityActionType.move:
+        return 'Move Action';
+      default:
+        return 'Unknown';
+    }
+  }
+}
+
 class Ability {
   final String title;
   final AbilityType type;

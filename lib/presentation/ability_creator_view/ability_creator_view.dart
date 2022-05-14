@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 
 import '../../domain/entities/ability.dart';
+import '../../domain/entities/resource.dart';
 
 class AbilityCreatorView extends StatelessWidget {
   static const routeName = '/ability-creator';
@@ -31,12 +32,15 @@ class _AbilityCreatorBodyState extends State<AbilityCreatorBody> {
   final _formKey = GlobalKey<FormState>();
 
   late AbilityType? _type;
+  late ResourceType? _resourceType;
+  late ConsumptionType? _consumptionType;
 
   @override
   void initState() {
     super.initState();
-//    _type = AbilityType.none;
     _type = null;
+    _resourceType = null;
+    _consumptionType = null;
   }
 
   @override
@@ -70,12 +74,15 @@ class _AbilityCreatorBodyState extends State<AbilityCreatorBody> {
                       maxLength: 128,
                       decoration: const InputDecoration(
                         labelText: "Name",
+                        isDense: true,
+                        counter: SizedBox(),
                         alignLabelWithHint: true,
                       ),
                     ),
                     DropdownButtonFormField<AbilityType>(
                       decoration: const InputDecoration(
                         labelText: "Type",
+                        isDense: true,
                         alignLabelWithHint: true,
                       ),
                       style: Theme.of(context)
@@ -124,9 +131,177 @@ class _AbilityCreatorBodyState extends State<AbilityCreatorBody> {
                       maxLength: 2,
                       decoration: const InputDecoration(
                         labelText: "Token Price",
+                        isDense: true,
+                        counter: SizedBox(),
                         alignLabelWithHint: true,
                       ),
                     ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(fontSize: 20),
+                            maxLength: 128,
+                            decoration: const InputDecoration(
+                              labelText: "Learn Requirement",
+                              isDense: true,
+                              counter: SizedBox(),
+                              alignLabelWithHint: true,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        IconButton(
+                          onPressed: () {},
+                          iconSize: 32,
+                          padding: EdgeInsets.zero,
+                          icon: const Icon(Icons.add),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(fontSize: 20),
+                            maxLength: 128,
+                            decoration: const InputDecoration(
+                              labelText: "Use Requirement",
+                              isDense: true,
+                              counter: SizedBox(),
+                              alignLabelWithHint: true,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        IconButton(
+                          onPressed: () {},
+                          iconSize: 32,
+                          padding: EdgeInsets.zero,
+                          icon: const Icon(Icons.add),
+                        ),
+                      ],
+                    ),
+                    if (_type == AbilityType.technique ||
+                        _type == AbilityType.spell) ...[
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Resource cost is required";
+                          }
+                          return null;
+                        },
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            ?.copyWith(fontSize: 20),
+                        decoration: const InputDecoration(
+                          labelText: "Resource Cost",
+                          isDense: true,
+                          alignLabelWithHint: true,
+                        ),
+                      ),
+                      DropdownButtonFormField<ResourceType>(
+                        decoration: const InputDecoration(
+                          labelText: "Resource Type",
+                          isDense: true,
+                          alignLabelWithHint: true,
+                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            ?.copyWith(fontSize: 20),
+                        value: _resourceType,
+                        onSaved: (value) {
+                          setState(() {
+                            _resourceType = value as ResourceType;
+                          });
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            _resourceType = value as ResourceType;
+                          });
+                        },
+                        items: [
+                          DropdownMenuItem(
+                            value: ResourceType.stamina,
+                            child: Text(ResourceType.stamina.capitalizedName),
+                          ),
+                          DropdownMenuItem(
+                            value: ResourceType.magic,
+                            child: Text(ResourceType.magic.capitalizedName),
+                          ),
+                          DropdownMenuItem(
+                            value: ResourceType.health,
+                            child: Text(ResourceType.health.capitalizedName),
+                          ),
+                        ],
+                      ),
+                      DropdownButtonFormField<ConsumptionType>(
+                        decoration: const InputDecoration(
+                          labelText: "Consumption Type",
+                          isDense: true,
+                          alignLabelWithHint: true,
+                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            ?.copyWith(fontSize: 20),
+                        value: _consumptionType,
+                        onSaved: (value) {
+                          setState(() {
+                            _consumptionType = value as ConsumptionType;
+                          });
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            _consumptionType = value as ConsumptionType;
+                          });
+                        },
+                        items: [
+                          DropdownMenuItem(
+                            value: ConsumptionType.spend,
+                            child: Text(ConsumptionType.spend.capitalizedName),
+                          ),
+                          DropdownMenuItem(
+                            value: ConsumptionType.bind,
+                            child: Text(ConsumptionType.bind.capitalizedName),
+                          ),
+                          DropdownMenuItem(
+                            value: ConsumptionType.burn,
+                            child: Text(ConsumptionType.burn.capitalizedName),
+                          ),
+                        ],
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Damage formula is required";
+                          }
+                          return null;
+                        },
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            ?.copyWith(fontSize: 20),
+                        maxLength: 128,
+                        decoration: const InputDecoration(
+                          labelText: "Damage Formula",
+                          isDense: true,
+                          alignLabelWithHint: true,
+                        ),
+                      ),
+                    ],
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -141,6 +316,18 @@ class _AbilityCreatorBodyState extends State<AbilityCreatorBody> {
                       maxLines: 5,
                       decoration: const InputDecoration(
                         labelText: "Effect",
+                        isDense: true,
+                        alignLabelWithHint: true,
+                      ),
+                    ),
+                    TextFormField(
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          ?.copyWith(fontSize: 20),
+                      decoration: const InputDecoration(
+                        labelText: "Special",
+                        isDense: true,
                         alignLabelWithHint: true,
                       ),
                     ),
