@@ -54,7 +54,7 @@ class _AbilityCreatorBodyState extends State<AbilityCreatorBody> {
               const SizedBox(height: 8),
               Text(
                 "Ability Creator",
-                style: Theme.of(context).textTheme.headline4,
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
               Form(
                 key: _formKey,
@@ -69,7 +69,7 @@ class _AbilityCreatorBodyState extends State<AbilityCreatorBody> {
                       },
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2
+                          .bodyMedium
                           ?.copyWith(fontSize: 20),
                       maxLength: 128,
                       decoration: const InputDecoration(
@@ -87,7 +87,7 @@ class _AbilityCreatorBodyState extends State<AbilityCreatorBody> {
                       ),
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2
+                          .bodyMedium
                           ?.copyWith(fontSize: 20),
                       value: _type,
                       onSaved: (value) {
@@ -126,7 +126,7 @@ class _AbilityCreatorBodyState extends State<AbilityCreatorBody> {
                       },
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2
+                          .bodyMedium
                           ?.copyWith(fontSize: 20),
                       maxLength: 2,
                       decoration: const InputDecoration(
@@ -142,7 +142,7 @@ class _AbilityCreatorBodyState extends State<AbilityCreatorBody> {
                           child: TextFormField(
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText2
+                                .bodyMedium
                                 ?.copyWith(fontSize: 20),
                             maxLength: 128,
                             decoration: const InputDecoration(
@@ -168,7 +168,7 @@ class _AbilityCreatorBodyState extends State<AbilityCreatorBody> {
                           child: TextFormField(
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText2
+                                .bodyMedium
                                 ?.copyWith(fontSize: 20),
                             maxLength: 128,
                             decoration: const InputDecoration(
@@ -203,7 +203,7 @@ class _AbilityCreatorBodyState extends State<AbilityCreatorBody> {
                         },
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText2
+                            .bodyMedium
                             ?.copyWith(fontSize: 20),
                         decoration: const InputDecoration(
                           labelText: "Resource Cost",
@@ -219,7 +219,7 @@ class _AbilityCreatorBodyState extends State<AbilityCreatorBody> {
                         ),
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText2
+                            .bodyMedium
                             ?.copyWith(fontSize: 20),
                         value: _resourceType,
                         onSaved: (value) {
@@ -255,7 +255,7 @@ class _AbilityCreatorBodyState extends State<AbilityCreatorBody> {
                         ),
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText2
+                            .bodyMedium
                             ?.copyWith(fontSize: 20),
                         value: _consumptionType,
                         onSaved: (value) {
@@ -292,7 +292,7 @@ class _AbilityCreatorBodyState extends State<AbilityCreatorBody> {
                         },
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText2
+                            .bodyMedium
                             ?.copyWith(fontSize: 20),
                         maxLength: 128,
                         decoration: const InputDecoration(
@@ -311,7 +311,7 @@ class _AbilityCreatorBodyState extends State<AbilityCreatorBody> {
                       },
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2
+                          .bodyMedium
                           ?.copyWith(fontSize: 20),
                       maxLines: 5,
                       decoration: const InputDecoration(
@@ -323,7 +323,7 @@ class _AbilityCreatorBodyState extends State<AbilityCreatorBody> {
                     TextFormField(
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2
+                          .bodyMedium
                           ?.copyWith(fontSize: 20),
                       decoration: const InputDecoration(
                         labelText: "Special",

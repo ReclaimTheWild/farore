@@ -95,7 +95,7 @@ class _AspectDisplayState extends State<AspectDisplay> {
                   Center(
                     child: Text(
                       aspect.title,
-                      style: Theme.of(context).textTheme.headline6,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
                   SizedBox(
@@ -127,8 +127,10 @@ class _AspectDisplayState extends State<AspectDisplay> {
               aspect.injuries == 0
                   ? "No injuries"
                   : "Injuries: ${aspect.injuries}",
-              style:
-                  Theme.of(context).textTheme.headline6?.copyWith(fontSize: 14),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.copyWith(fontSize: 14),
             ),
           ),
           Row(
@@ -235,7 +237,7 @@ class _InjuryEditorDialogState extends State<InjuryEditorDialog> {
             children: [
               Text(
                 "Edit ${aspect.title} Injuries",
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               Column(
                 children: [
@@ -250,7 +252,7 @@ class _InjuryEditorDialogState extends State<InjuryEditorDialog> {
                             child: Text(
                               "-",
                               style:
-                                  Theme.of(context).primaryTextTheme.headline6,
+                                  Theme.of(context).primaryTextTheme.titleLarge,
                             ),
                           ),
                         ),
@@ -260,7 +262,7 @@ class _InjuryEditorDialogState extends State<InjuryEditorDialog> {
                         child: Center(
                           child: Text(
                             newInjuryValue.toString(),
-                            style: Theme.of(context).textTheme.headline5,
+                            style: Theme.of(context).textTheme.headlineSmall,
                           ),
                         ),
                       ),
@@ -272,7 +274,7 @@ class _InjuryEditorDialogState extends State<InjuryEditorDialog> {
                             child: Text(
                               "+",
                               style:
-                                  Theme.of(context).primaryTextTheme.headline6,
+                                  Theme.of(context).primaryTextTheme.titleLarge,
                             ),
                           ),
                         ),
@@ -346,7 +348,7 @@ class _TraitDisplayState extends State<TraitDisplay> {
           child: Center(
             child: Text(
               trait.title,
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
         ),
@@ -354,7 +356,7 @@ class _TraitDisplayState extends State<TraitDisplay> {
           width: _screen.width * 0.18,
           child: TextButton(
             style: TextButton.styleFrom(
-              primary: Colors.transparent,
+              foregroundColor: Colors.transparent,
             ),
             onPressed: () => showDialog(
               context: context,
@@ -367,7 +369,7 @@ class _TraitDisplayState extends State<TraitDisplay> {
             ),
             child: Text(
               trait.value.toString(),
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
         ),
@@ -375,7 +377,7 @@ class _TraitDisplayState extends State<TraitDisplay> {
           width: _screen.width * 0.18,
           child: TextButton(
             style: TextButton.styleFrom(
-              primary: Colors.transparent,
+              foregroundColor: Colors.transparent,
             ),
             onPressed: () => showDialog(
               context: context,
@@ -388,7 +390,7 @@ class _TraitDisplayState extends State<TraitDisplay> {
             ),
             child: Text(
               trait.totalBonus.toString(),
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
         ),
@@ -396,7 +398,7 @@ class _TraitDisplayState extends State<TraitDisplay> {
           width: _screen.width * 0.18,
           child: TextButton(
             style: TextButton.styleFrom(
-              primary: Colors.transparent,
+              foregroundColor: Colors.transparent,
             ),
             onPressed: () => showDialog(
               context: context,
@@ -412,7 +414,7 @@ class _TraitDisplayState extends State<TraitDisplay> {
                       ? trait.totalValue - injuries
                       : 0)
                   .toString(),
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
         ),
@@ -474,11 +476,11 @@ class _ValueEditDialogState extends State<ValueEditDialog> {
             children: [
               Text(
                 "Edit ${trait.title}",
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               Text(
                 "Previous: ${trait.value}",
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -490,7 +492,7 @@ class _ValueEditDialogState extends State<ValueEditDialog> {
                       child: Center(
                         child: Text(
                           "-",
-                          style: Theme.of(context).primaryTextTheme.headline6,
+                          style: Theme.of(context).primaryTextTheme.titleLarge,
                         ),
                       ),
                     ),
@@ -500,7 +502,7 @@ class _ValueEditDialogState extends State<ValueEditDialog> {
                     child: Center(
                       child: Text(
                         newValue.toString(),
-                        style: Theme.of(context).textTheme.headline5,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                     ),
                   ),
@@ -511,7 +513,7 @@ class _ValueEditDialogState extends State<ValueEditDialog> {
                       child: Center(
                         child: Text(
                           "+",
-                          style: Theme.of(context).primaryTextTheme.headline6,
+                          style: Theme.of(context).primaryTextTheme.titleLarge,
                         ),
                       ),
                     ),
@@ -618,11 +620,11 @@ class _BonusValueEditDialogState extends State<BonusValueEditDialog> {
             children: [
               Text(
                 "Edit ${trait.title} Bonus",
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               Text(
                 "Previous: ${trait.equipmentBonus} (Equipment), ${trait.otherBonus} (Other)",
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -634,7 +636,7 @@ class _BonusValueEditDialogState extends State<BonusValueEditDialog> {
                       child: Center(
                         child: Text(
                           "-",
-                          style: Theme.of(context).primaryTextTheme.headline6,
+                          style: Theme.of(context).primaryTextTheme.titleLarge,
                         ),
                       ),
                     ),
@@ -650,7 +652,7 @@ class _BonusValueEditDialogState extends State<BonusValueEditDialog> {
                           ),
                           Text(
                             newEquipmentValue.toString(),
-                            style: Theme.of(context).textTheme.headline5,
+                            style: Theme.of(context).textTheme.headlineSmall,
                           ),
                         ],
                       ),
@@ -663,7 +665,7 @@ class _BonusValueEditDialogState extends State<BonusValueEditDialog> {
                       child: Center(
                         child: Text(
                           "+",
-                          style: Theme.of(context).primaryTextTheme.headline6,
+                          style: Theme.of(context).primaryTextTheme.titleLarge,
                         ),
                       ),
                     ),
@@ -680,7 +682,7 @@ class _BonusValueEditDialogState extends State<BonusValueEditDialog> {
                       child: Center(
                         child: Text(
                           "-",
-                          style: Theme.of(context).primaryTextTheme.headline6,
+                          style: Theme.of(context).primaryTextTheme.titleLarge,
                         ),
                       ),
                     ),
@@ -696,7 +698,7 @@ class _BonusValueEditDialogState extends State<BonusValueEditDialog> {
                           ),
                           Text(
                             newOtherValue.toString(),
-                            style: Theme.of(context).textTheme.headline5,
+                            style: Theme.of(context).textTheme.headlineSmall,
                           ),
                         ],
                       ),
@@ -709,7 +711,7 @@ class _BonusValueEditDialogState extends State<BonusValueEditDialog> {
                       child: Center(
                         child: Text(
                           "+",
-                          style: Theme.of(context).primaryTextTheme.headline6,
+                          style: Theme.of(context).primaryTextTheme.titleLarge,
                         ),
                       ),
                     ),

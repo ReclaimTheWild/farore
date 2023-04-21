@@ -56,7 +56,10 @@ class _ResourceEditorState extends State<ResourceEditor> {
                     Center(
                       child: Text(
                         state.title,
-                        style: Theme.of(context).textTheme.headline4?.copyWith(
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium
+                            ?.copyWith(
                               color: state.color,
                               fontWeight: FontWeight.bold,
                             ),
@@ -101,10 +104,10 @@ class _ResourceEditorState extends State<ResourceEditor> {
                       value: state.value,
                       onChanged: updatePickerValue,
                       axis: Axis.horizontal,
-                      textStyle: Theme.of(context).textTheme.headline6,
+                      textStyle: Theme.of(context).textTheme.titleLarge,
                       selectedTextStyle: Theme.of(context)
                           .textTheme
-                          .headline5
+                          .headlineSmall
                           ?.copyWith(color: state.color),
                     ),
                   ),
@@ -124,10 +127,10 @@ class _ResourceEditorState extends State<ResourceEditor> {
                         value: state.tempValue,
                         onChanged: updatePickerTempValue,
                         axis: Axis.horizontal,
-                        textStyle: Theme.of(context).textTheme.headline6,
+                        textStyle: Theme.of(context).textTheme.titleLarge,
                         selectedTextStyle: Theme.of(context)
                             .textTheme
-                            .headline5
+                            .headlineSmall
                             ?.copyWith(color: Colors.yellow),
                       ),
                     ),
@@ -213,7 +216,7 @@ class ResourceInfoRow extends StatelessWidget {
               min.toString(),
               style: Theme.of(context)
                   .textTheme
-                  .headline5
+                  .headlineSmall
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
           ],
@@ -235,7 +238,7 @@ class ResourceInfoRow extends StatelessWidget {
               bound.toString(),
               style: Theme.of(context)
                   .textTheme
-                  .headline5
+                  .headlineSmall
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
           ],
@@ -257,7 +260,7 @@ class ResourceInfoRow extends StatelessWidget {
               burnt.toString(),
               style: Theme.of(context)
                   .textTheme
-                  .headline5
+                  .headlineSmall
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
           ],
@@ -279,7 +282,7 @@ class ResourceInfoRow extends StatelessWidget {
               max.toString(),
               style: Theme.of(context)
                   .textTheme
-                  .headline5
+                  .headlineSmall
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
           ],
@@ -375,7 +378,7 @@ class _ResourceEditorDialogState extends State<ResourceEditorDialog> {
             children: [
               Text(
                 "Edit ${resource.title}",
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.7,
@@ -384,7 +387,7 @@ class _ResourceEditorDialogState extends State<ResourceEditorDialog> {
                   children: [
                     Text(
                       "Has Temporary:",
-                      style: Theme.of(context).textTheme.headline6,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                     Switch(value: newHasTemp, onChanged: toggleHasTemp),
                   ],
@@ -394,7 +397,7 @@ class _ResourceEditorDialogState extends State<ResourceEditorDialog> {
                 children: [
                   Text(
                     "Display Mode:",
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 8),
                   ToggleSwitch(
@@ -413,7 +416,7 @@ class _ResourceEditorDialogState extends State<ResourceEditorDialog> {
                 children: [
                   Text(
                     "Bound ${resource.title}:",
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 8),
                   Row(
@@ -427,7 +430,7 @@ class _ResourceEditorDialogState extends State<ResourceEditorDialog> {
                             child: Text(
                               "-",
                               style:
-                                  Theme.of(context).primaryTextTheme.headline6,
+                                  Theme.of(context).primaryTextTheme.titleLarge,
                             ),
                           ),
                         ),
@@ -437,7 +440,7 @@ class _ResourceEditorDialogState extends State<ResourceEditorDialog> {
                         child: Center(
                           child: Text(
                             newBoundValue.toString(),
-                            style: Theme.of(context).textTheme.headline5,
+                            style: Theme.of(context).textTheme.headlineSmall,
                           ),
                         ),
                       ),
@@ -449,7 +452,7 @@ class _ResourceEditorDialogState extends State<ResourceEditorDialog> {
                             child: Text(
                               "+",
                               style:
-                                  Theme.of(context).primaryTextTheme.headline6,
+                                  Theme.of(context).primaryTextTheme.titleLarge,
                             ),
                           ),
                         ),
@@ -462,7 +465,7 @@ class _ResourceEditorDialogState extends State<ResourceEditorDialog> {
                 children: [
                   Text(
                     "Burnt ${resource.title}:",
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 8),
                   Row(
@@ -476,7 +479,7 @@ class _ResourceEditorDialogState extends State<ResourceEditorDialog> {
                             child: Text(
                               "-",
                               style:
-                                  Theme.of(context).primaryTextTheme.headline6,
+                                  Theme.of(context).primaryTextTheme.titleLarge,
                             ),
                           ),
                         ),
@@ -486,7 +489,7 @@ class _ResourceEditorDialogState extends State<ResourceEditorDialog> {
                         child: Center(
                           child: Text(
                             newBurntValue.toString(),
-                            style: Theme.of(context).textTheme.headline5,
+                            style: Theme.of(context).textTheme.headlineSmall,
                           ),
                         ),
                       ),
@@ -498,7 +501,7 @@ class _ResourceEditorDialogState extends State<ResourceEditorDialog> {
                             child: Text(
                               "+",
                               style:
-                                  Theme.of(context).primaryTextTheme.headline6,
+                                  Theme.of(context).primaryTextTheme.titleLarge,
                             ),
                           ),
                         ),

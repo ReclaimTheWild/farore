@@ -1,3 +1,4 @@
+import "package:equatable/equatable.dart";
 import "package:flutter/material.dart";
 
 import "../../utils/icons_finder.dart";
@@ -24,6 +25,54 @@ extension ResourceTypeName on ResourceType {
         return 'Unknown';
     }
   }
+}
+
+extension ResourceDefaults on ResourceType {
+  Color get color {
+    switch (this) {
+      case ResourceType.none:
+        return Colors.black;
+      case ResourceType.health:
+        return Colors.red;
+      case ResourceType.stamina:
+        return Colors.green;
+      case ResourceType.magic:
+        return Colors.blue;
+      default:
+        return Colors.black;
+    }
+  }
+
+  IconFamily get icon {
+    switch (this) {
+      case ResourceType.none:
+        return IconFamily.zeldaMagic;
+      case ResourceType.health:
+        return IconFamily.zeldaHeart;
+      case ResourceType.stamina:
+        return IconFamily.zeldaStamina;
+      case ResourceType.magic:
+        return IconFamily.zeldaMagic;
+      default:
+        return IconFamily.zeldaMagic;
+    }
+  }
+}
+
+class ResourceTuple extends Equatable {
+  final ResourceType type;
+  final String sheetHash;
+
+  const ResourceTuple({
+    required this.type,
+    required this.sheetHash,
+  });
+
+  @override
+  List<Object?> get props => [
+        type,
+        sheetHash,
+      ];
 }
 
 enum ConsumptionType {
